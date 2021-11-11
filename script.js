@@ -8,6 +8,7 @@ const stretchSpring = () => {
     fill.style.animationPlayState = 'running';
     spring.style.animationPlayState = 'running';
     btn.textContent = 'Release the button'
+    fill.style.animationName = 'fill';
 
 }
 const releaseSpring = () => {
@@ -29,9 +30,27 @@ const releaseSpring = () => {
     btn.removeEventListener('mouseup', releaseSpring)
     btn.removeEventListener('touchstart', stretchSpring)
     btn.removeEventListener('touchend', releaseSpring)
+
+    ball.addEventListener('animationend', resetAnimation)
 }
 const resetAnimation = () => {
-    console.log('reset animacji');
+    ball.removeEventListener('animationend', resetAnimation);
+    setTimeout(() => {
+        btn.addEventListener('mousedown', stretchSpring)
+        btn.addEventListener('mouseup', releaseSpring)
+        btn.addEventListener('touchstart', stretchSpring)
+        btn.addEventListener('touchend', releaseSpring)
+        btn.style.color = 'white';
+        btn.textContent = 'Stretch the spring';
+
+        spring.style.animation = '';
+        ball.style.animation = '';
+        spring.style.animation = '';
+        fill.style.animationName = 'none';
+
+
+    }, 2000)
+
 }
 
 btn.addEventListener('mousedown', stretchSpring)
