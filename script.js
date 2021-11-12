@@ -1,4 +1,5 @@
 const ball = document.querySelector('.ball');
+const ballInside = document.querySelector('.ball-inside');
 const btn = document.querySelector('.btn-action');
 const spring = document.querySelector('.spring');
 const fill = document.querySelector('.fill');
@@ -22,10 +23,14 @@ const releaseSpring = () => {
     btn.style.color = 'black'
     btn.textContent = `force: ${progressPercent}%`
 
-    document.documentElement.style.setProperty('--power-x', `${progressPercent * 6 + 130}px`);
-    ball.style.animation = "fly-ball-x 2s 1 forwards .2s cubic-bezier(.17,.67,.6,1),fly-ball-y 2s 1 forwards .2s linear";
 
-    // document.documentElement.style.setProperty('--spring-left', parseInt(getComputedStyle(spring).left, 10));
+    const ballFromGround = getComputedStyle(ball).bottom
+    console.log(ballFromGround);
+    document.documentElement.style.setProperty('--power-x', `${progressPercent * 6}px`);
+    document.documentElement.style.setProperty('--power-y', `${ballFromGround}`);
+    ball.style.animation = "fly-ball-x 2s 1 forwards .2s cubic-bezier(.17,.67,.6,1)";
+    ballInside.style.animation = "fly-ball-y 2s 1 forwards .2s linear";
+
     const springStyle = window.getComputedStyle(spring)
     const springMatrix = new WebKitCSSMatrix(springStyle.transform)
     const springPercent = springMatrix.m41 / parseInt(getComputedStyle(spring).width)
@@ -54,8 +59,7 @@ const resetAnimation = () => {
         ball.style.animation = '';
         spring.style.animation = '';
         fill.style.animationName = 'none';
-
-
+        ballInside.style.animation = '';
     }, 2000)
 
 }
