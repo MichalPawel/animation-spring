@@ -14,16 +14,23 @@ const stretchSpring = () => {
 const releaseSpring = () => {
     fill.style.animationPlayState = 'paused';
     spring.style.animationPlayState = 'paused';
-    const fillWidth = parseInt(getComputedStyle(fill).width, 10);
     const barWidth = parseInt(getComputedStyle(bar).width)
-    const progressPercent = ((fillWidth / barWidth) * 100).toFixed();
+    const fillStyle = window.getComputedStyle(fill)
+    const fillMatrix = new WebKitCSSMatrix(fillStyle.transform);
+    const progressPercent = ((fillMatrix.m41 / barWidth) * 100 + 100).toFixed();
+
     btn.style.color = 'black'
     btn.textContent = `force: ${progressPercent}%`
 
-    document.documentElement.style.setProperty('--power-x', `${progressPercent * 7 + 120}px`);
+    document.documentElement.style.setProperty('--power-x', `${progressPercent * 6 + 130}px`);
     ball.style.animation = "fly-ball-x 2s 1 forwards .2s cubic-bezier(.17,.67,.6,1),fly-ball-y 2s 1 forwards .2s linear";
 
-    document.documentElement.style.setProperty('--spring-left', parseInt(getComputedStyle(spring).left, 10));
+    // document.documentElement.style.setProperty('--spring-left', parseInt(getComputedStyle(spring).left, 10));
+    const springStyle = window.getComputedStyle(spring)
+    const springMatrix = new WebKitCSSMatrix(springStyle.transform)
+    const springPercent = springMatrix.m41 / parseInt(getComputedStyle(spring).width)
+    console.log(springPercent);
+    document.documentElement.style.setProperty('--spring-left', `${springPercent * 100}%`);
     spring.style.animation = 'release-spring .2s ease-in';
 
     btn.removeEventListener('mousedown', stretchSpring)

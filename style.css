@@ -73,6 +73,7 @@ body {
     background-color: cadetblue;
 }
 .bar {
+    overflow: hidden;
     margin-top: 5px;
     height: 20px;
     width: 100%;
@@ -80,7 +81,8 @@ body {
     border: 1px solid black;      
 }
 .fill {
-    width: 5%;
+    width: 100%;
+    transform: translateX(-95%);
     height: 100%;
     background-color: darkred;
     animation-name: fill;
@@ -98,20 +100,20 @@ body {
 
 @keyframes fill {
     100% {
-        width: 100%;
+        transform: translateX(0);
     }
 }
 @keyframes spring {
     100% {
-        left: -15%;
+        transform: translateX(-80%);
     }
 }
 @keyframes release-spring {
     0% {
-        left: var(--string-left, -14%);
+        transform: translateX(var(--spring-left,-50%));
     }
     100% {
-        left: -2%;
+        transform: translateX(0%);
     }
 }
 @keyframes fly-ball-x {
